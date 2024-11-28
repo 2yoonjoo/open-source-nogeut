@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>노긋노긋</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="/css/header.css?after" rel="stylesheet" type="text/css">
+    <link href="/css/chat.css?after" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+        integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">코밋메인홈</h1>
+        <div class="header__block">
+            <a href="#"> 마이페이지 </a>
+            <a href="#"> 로그인 </a>
+        </div>
+
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+            <nav class="header__nav-block">
+                <ul class="nav__list" role="navigation">
+
+                    <li class="nav__list-item">
+                        <a href="/main" aria-label="노긋노긋 홈페이지">
+                            <img src="/images/logo.png" width="50" alt="로고">
+                        </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="/filter"> 매칭 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="/chat"> 채팅 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="/promiseList"> 약속 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="/postList/1"> 게시판 </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </header>
+    <main>
+        <!-- 채팅방 목록과 채팅창을 감싸는 컨테이너 -->
+        <div class="chat__container">
+            <!-- 채팅방 목록 -->
+            <div class="chat__room__list">
+                <h2 class="chat__title">채팅방</h2>
+                <!-- 채팅방 목록의 상단 분리선 -->
+                <div class="chat__room__list__line"></div>
+                <ul id="chat-room-list">
+
+                </ul>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chatToSenior.js"></script>
+
+    <!-- Custom Alert -->
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-content">
+            <p id="alertMessage"></p>
+            <button style="color: white;" onclick="closeAlert()">닫기</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>
