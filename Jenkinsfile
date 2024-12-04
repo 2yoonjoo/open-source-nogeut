@@ -1,9 +1,9 @@
 pipeline {
         
         stages {
-                stage("Checkout code") {
+                stage("Clone repository") {
                         steps {
-                                checkout scm
+                                git 'https://github.com/2yoonjoo/open-source-nogeut.git'
                         }
                 }
                 stage("Build image") {
