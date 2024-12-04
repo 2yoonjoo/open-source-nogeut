@@ -1,11 +1,5 @@
 pipeline {
-        agent any
-        enviroment {
-                PROJECT_ID = 'open-source-441510'
-                CLUSTER_NAME = 'kube'
-                LOCATION = 'asia-northeast3-a'
-                CREDENTIALS_ID = 'gke'
-        }
+        
         stages {
                 stage("Checkout code") {
                         steps {
@@ -15,7 +9,7 @@ pipeline {
                 stage("Build image") {
                         steps {
                                 script {
-                                        myapp = docker.build("yzznjzz/oepn-sw-nogeut:${env.BUILD_ID}")
+                                        myapp = docker.build("yzznjzz/open-sw-nogeut")
                                 }
                         }
                 }
