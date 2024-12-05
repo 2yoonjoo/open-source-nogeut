@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Clone repository") {
             steps {
-                git 'https://github.com/2yoonjoo/open-source-nogeut.git'
+                git branch: 'main', url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
             }
         }
         stage("Build image") {
