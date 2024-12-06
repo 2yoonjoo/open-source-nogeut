@@ -18,16 +18,17 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    //sh "docker build -t yzznjzz/nogeut:${env.BUILD_ID} ."
 		    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
+		    echo "*Built image: ${image.id}*"
                 }
             }
         }
         stage("Push image") {
             steps {
                 script {
+		    echo "*Pushing image yzznjzz/nogeut:${env.BUILD_ID}*"
                     docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
-                            //myapp.push("latest")
+                            myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
                 }
