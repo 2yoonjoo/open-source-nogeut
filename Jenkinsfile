@@ -5,7 +5,7 @@ pipeline {
         CLUSTER_NAME = 'kube'
         LOCATION = 'asia-northeast3-a'
         CREDENTIALS_ID = '052e9d7a-9816-484e-b7b8-fe0a6a3812dc'
-        GITHUB_TOKEN = credentials('github') //
+	DOCKER_IMAGE = "yzznjzz/open-sw-nogeut:${BUILD_ID}"
     }
     stages {
        stage("Checkout code") {
@@ -18,18 +18,19 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-		    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
-		    echo "*Built image: ${myapp.id}*"
+		    //myapp = docker.build("yzznjzz/open-sw-nogeut:${BUILD_ID}")
+		      sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_ID} ."
                 }
             }
         }
         stage("Push image") {
             steps {
                 script {
-		    echo "*Pushing image yzznjzz/nogeut:${env.BUILD_ID}*"
-                    docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
+                    //docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
                             //myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
+                            //myapp.push("${BUILD_ID}")
+		     withDockerRegistry([credentialsId: 'yzznjzz', url: 'https://index.docker.io/v1/']) {
+			sh "docker push yzznjzz/open-sw-nogeut:${BUILD_ID}"
                     }
                 }
             }
@@ -42,7 +43,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/yzznjzz\\/nogeut:latest/yzznjzz\\/nogeut:${env.BUILD_ID}/g' deployment.yaml"
+                    sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
 
                     step([$class: 'KubernetesEngineBuilder',
                           projectId: env.PROJECT_ID,
