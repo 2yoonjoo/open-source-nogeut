@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nogeut-container
-        image: yzznjzz/open-sw-nogeut:latest
+        image: yzznjzz/nogeut:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3030
