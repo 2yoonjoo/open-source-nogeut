@@ -5,7 +5,7 @@ pipeline {
         CLUSTER_NAME = 'kube'
         LOCATION = 'asia-northeast3-a'
         CREDENTIALS_ID = '052e9d7a-9816-484e-b7b8-fe0a6a3812dc'
-	DOCKER_IMAGE = "yzznjzz/opne-sw-nogeut:${BUILD_ID}"
+	DOCKER_IMAGE = "yzznjzz/open-sw-nogeut:${BUILD_ID}"
     }
     stages {
        stage("Checkout code") {
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
 		    //myapp = docker.build("yzznjzz/open-sw-nogeut:${BUILD_ID}")
-		      sh "docker build -t yzznjzz/opne-sw-nogeut:${BUILD_ID} ."
+		      sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_ID} ."
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/yzznjzz\\/opne-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+                    sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
 
                     step([$class: 'KubernetesEngineBuilder',
                           projectId: env.PROJECT_ID,
