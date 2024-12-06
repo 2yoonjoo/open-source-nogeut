@@ -18,8 +18,8 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    sh "docker build -t yzznjzz/nogeut:${env.BUILD_ID} ."
-			//myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
+                    //sh "docker build -t yzznjzz/nogeut:${env.BUILD_ID} ."
+		    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
                 }
             }
         }
