@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
 		    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
-		    echo "*Built image: ${image.id}*"
+		    echo "*Built image: ${myapp.id}*"
                 }
             }
         }
