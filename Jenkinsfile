@@ -11,7 +11,7 @@ pipeline {
        stage("Checkout code") {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
+                    git branch: 'refs/pull/${env.CHANGE_ID}/merge', url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
                 }
             }
         }
