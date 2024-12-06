@@ -28,7 +28,7 @@ pipeline {
                 script {
 		    echo "*Pushing image yzznjzz/nogeut:${env.BUILD_ID}*"
                     docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
-                            myapp.push("latest")
+                            //myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
                 }
