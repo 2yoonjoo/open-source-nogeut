@@ -224,6 +224,40 @@
     </div>
   </div>
 
+  <script>
+                document.getElementById('checkEmail').addEventListener('click', async ()=> {
+                        const email = document.getElementById('email').value;
+
+                        if (!email) {
+                                alert("이메일을 입력해주세요.");
+                                return;
+                        }
+
+                        try {
+                                const response = await fetch('/signup', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type' : 'application/json' },
+                                        body: JSON.stringify({ email })
+                                });
+
+
+                                const textResponse = await response.text();
+                                const result = JSON.parse(textResponse);
+
+                                if (result.null) { alert(result.message); }
+                                if (result.success) {
+                                        alert(result.message);
+                                } else {
+                                        alert(result.message);
+                                }
+
+                        } catch(err) {
+                                console.error(err);
+                                alert("서버 오류가 발생했습니다.");
+                        }
+                });
+        </script>
+
 </body>
 <footer class="footer__container">
     <section class="pages__container">

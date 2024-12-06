@@ -1,5 +1,6 @@
 const Member = require('../models/member');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
 async function fetchData(email) {
     try {
@@ -73,6 +74,37 @@ exports.logout = (req, res) => {
 exports.renderSignup = (req, res) => {
     res.render('signUp', { error: null });
 };
+
+//이메일(아이디) 중복 체크
+exports.checkEmail = async (req,res) => {
+        try {
+                const { email } = req.body;
+
+                if (!email) { return res.status(400).json({ success: null, message: "이메일을 입력하셨는지 확인해주세요." });
+                }
+
+                const existingUser = await Member.findOne({
+                        where: {
+                                [Op.or]: [
+                                        { email: email },
+                                        { googleID: email }
+                                ]
+                        }
+                });
+
+                if (existingUser) {
+                        return res.status(200).json({ success: false, message: "이미 사용 중인 이메일입니다." });
+                }
+                else {
+                        res.status(200).json({ success: true, message: "사용 가능한 이메일입니다."});
+                }
+
+        } catch (err) {
+                console.error(err);
+                res.status(500).json({ success: false, message: "이메일 중복 확인에 실패하였습니다." });
+        }
+};
+
 
 exports.signup = async (req, res) => {
     try {
