@@ -8,15 +8,18 @@ pipeline {
         GITHUB_TOKEN = credentials('github') //
     }
     stages {
-        stage("Checkout code") {
-		    steps {
-                checkout scm
+       stage("Checkout code") {
+            steps {
+                script {
+                    git branch: 'main', url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
+                }
             }
         }
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
+                    //sh "docker build -t yzznjzz/nogeut:${env.BUILD_ID} ."
+		    myapp = docker.build("yzznjzz/nogeut:${env.BUILD_ID}")
                 }
             }
         }
@@ -24,7 +27,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
-                            myapp.push("latest")
+                            //myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
                 }
@@ -37,11 +40,19 @@ pipeline {
 		    }
             }
             steps {
-                sh "sed -i 's/nogeut:latest/nogeut:${env.BUILD_ID}/g' deployment.yaml"
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                script {
+                    sh "sed -i 's/yzznjzz\\/nogeut:latest/yzznjzz\\/nogeut:${env.BUILD_ID}/g' deployment.yaml"
 
-		//sh "kubectl apply -f deployment.yaml"
+                    step([$class: 'KubernetesEngineBuilder',
+                          projectId: env.PROJECT_ID,
+                          clusterName: env.CLUSTER_NAME,
+                          location: env.LOCATION,
+                          manifestPattern: 'deployment.yaml',
+                          credentialsId: env.CREDENTIALS_ID,
+                          verifyDeployments: true])
+                }
             }
-        }       
+        }
+	    
     }    
 }
