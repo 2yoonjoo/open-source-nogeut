@@ -18,19 +18,19 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-		    //myapp = docker.build("yzznjzz/open-sw-nogeut:${BUILD_ID}")
-		      sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_ID} ."
+		    myapp = docker.build("yzznjzz/open-sw-nogeut:${BUILD_ID}")
+		    //sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_ID} ."
                 }
             }
         }
         stage("Push image") {
             steps {
                 script {
-                    //docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
-                            //myapp.push("latest")
-                            //myapp.push("${BUILD_ID}")
-		     withDockerRegistry([credentialsId: 'yzznjzz', url: 'https://index.docker.io/v1/']) {
-			sh "docker push yzznjzz/open-sw-nogeut:${BUILD_ID}"
+                    docker.withRegistry('https://registry.hub.docker.com', 'yzznjzz') {
+                            myapp.push("latest")
+                            myapp.push("${BUILD_ID}")
+		    //withDockerRegistry([credentialsId: 'yzznjzz', url: 'https://index.docker.io/v1/']) {
+			//sh "docker push yzznjzz/open-sw-nogeut:${BUILD_ID}"
                     }
                 }
             }
