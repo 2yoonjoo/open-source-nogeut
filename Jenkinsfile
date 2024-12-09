@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'docker run -d -p 3030:3030 --name noguet_container yzznjzz/open-sw-nogeut:${BUILD_ID}'
+                        sh 'docker run -d -p 3030:3030 --name noguet-container yzznjzz/open-sw-nogeut:${BUILD_ID}'
                         sh 'sleep 5 && curl -f http://34.64.111.61:8080/ || exit 1'
                         echo "Container is running correctly."
                     } catch (Exception e) {
