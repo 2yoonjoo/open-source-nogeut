@@ -39,7 +39,10 @@ pipeline {
 
         stage('Deploy to GKE') {
 		when {
-			branch 'main'
+			expression {
+			    return (env.BRANCH_NAME == 'main') || (env.CHANGE_TARGET == 'main')
+		    }
+
 		}
 		steps {
                 script {
