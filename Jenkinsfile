@@ -5,7 +5,7 @@ pipeline {
         CLUSTER_NAME = 'kube'                  // GKE 클러스터 이름
         LOCATION = 'asia-northeast3-a'         // 클러스터 위치
         CREDENTIALS_ID = '052e9d7a-9816-484e-b7b8-fe0a6a3812dc'     // GCP  인증 정보 (Jenkins에서 설정한 Google 서비스 계정 키 파일)
-        DOCKER_IMAGE = 'yzznjzz/open-sw-nogeut:${BUILD_ID}'  // Docker 이미지  이름
+        DOCKER_IMAGE = 'yzznjzz/open-sw-nogeut:${BUILD_NUMBER}'  // Docker 이미지  이름
     }
     stages {
         stage("Checkout code") {
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Docker 이미지를 빌드합니다.
-                    sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_ID} ."
+                    sh "docker build -t yzznjzz/open-sw-nogeut:${BUILD_NUMBER} ."
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
                 script {
                     // Docker Hub에 이미지를 푸시합니다.
                     withDockerRegistry([credentialsId: 'yzznjzz', url: 'https://index.docker.io/v1/']) {
-                        sh "docker push yzznjzz/open-sw-nogeut:${BUILD_ID}"
+                        sh "docker push yzznjzz/open-sw-nogeut:${BUILD_NUMBER}"
                     }
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
 		}
 		steps {
                 script {
-			sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+			sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_NUMBER}/g' deployment.yaml"
                     // 배포 전에 deployment.yaml 파일의 이미지를 최신 빌드 ID로 교체합니다.	
 
                     // Kubernetes Engine에 배포합니다.
