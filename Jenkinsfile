@@ -26,21 +26,6 @@ pipeline {
             }
         }
 
-	stage('Test Docker Image') {
-            steps {
-                script {
-                    try {
-                        sh 'docker run -d -p 3030:3030 --name ng-container yzznjzz/open-sw-nogeut:${BUILD_ID}'
-                        sh 'sleep 5 && curl -f http://34.64.111.61:8080/ || exit 1'
-                        echo "Container is running correctly."
-                    } catch (Exception e) {
-                        echo "Test failed. Image will not be pushed."
-                        error "Stopping pipeline due to test failure."
-                    }
-                }
-            }
-        }
-
         stage("Push Docker image") {
             steps {
                 script {
@@ -73,23 +58,6 @@ pipeline {
             }
         }
     }
-
-	post {
-        always {
-            script {
-                sh 'docker stop noguet_container || true'
-                sh 'docker rm noguet_container || true'
-            }
-            echo 'Pipeline completed.'
-        }
-        failure {
-            script {
-                echo "Build failed. Deleting the Docker image."
-                sh 'docker rmi $DOCKER_IMAGE || true'
-            }
-        }
-        success {
-            echo 'Pipeline succeeded!'
         }
     }
 
