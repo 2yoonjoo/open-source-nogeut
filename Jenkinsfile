@@ -43,7 +43,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+                    //sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+		    sh "sed -i "s|yzznjzz/open-sw-nogeut:latest|yzznjzz/open-sw-nogeut:${BUILD_ID}|g" deployment.yaml"
 
                     step([$class: 'KubernetesEngineBuilder',
                           projectId: env.PROJECT_ID,
