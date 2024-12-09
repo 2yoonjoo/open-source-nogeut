@@ -11,7 +11,7 @@ pipeline {
        stage("Checkout code") {
             steps {
                 script {
-                    git branch: env.CHANGE_TARGET, url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
+                    git branch: 'main', url: 'https://github.com/2yoonjoo/open-source-nogeut.git'
                 }
             }
         }
@@ -43,7 +43,8 @@ pipeline {
             }
             steps {
                 script {
-                    sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+                    //sh "sed -i 's/yzznjzz\\/open-sw-nogeut:latest/yzznjzz\\/open-sw-nogeut:${BUILD_ID}/g' deployment.yaml"
+		    sh 'sed -i "s|yzznjzz/open-sw-nogeut:latest|yzznjzz/open-sw-nogeut:${BUILD_ID}|g" deployment.yaml'
 
                     step([$class: 'KubernetesEngineBuilder',
                           projectId: env.PROJECT_ID,
